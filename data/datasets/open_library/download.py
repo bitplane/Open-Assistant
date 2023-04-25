@@ -25,12 +25,9 @@ def get_latest_version() -> str:
     location = response.headers["location"]
 
     file_name = location.split("/")[-1]
-    version = file_name.replace("ol_dump_", "")
-    version = version.replace(".txt.gz", "")
+    logger.info(f"Version is {file_name}")
 
-    logger.info(f'File at "{location}" is version {version}')
-
-    return version
+    return file_name
 
 
 def download_file() -> str:
@@ -41,7 +38,7 @@ def download_file() -> str:
 
     version = get_latest_version()
 
-    dest_filename = os.path.join(CACHE_DIR, f"{version}.txt.gz")
+    dest_filename = os.path.join(CACHE_DIR, version)
 
     if os.path.exists(dest_filename):
         logger.info("Already downloaded, use cached version")
